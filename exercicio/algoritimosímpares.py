@@ -1,5 +1,5 @@
 import os
-os.system ("clear")
+os.system ("cls || clear")
 
 print ("Informe um número ímpar de 1 ao 20: ")
 
