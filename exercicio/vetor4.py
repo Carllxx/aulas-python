@@ -1,5 +1,5 @@
 import os
-os.system
+os.system ("cls || clear")
 
 valores = []
 soma = 0
