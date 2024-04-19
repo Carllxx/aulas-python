@@ -44,4 +44,4 @@ while True :
 
 media  = soma / quantidadeNotas
 
-print(f"Média: {media}"
+print(f"Média: {media}")
