@@ -18,4 +18,4 @@ segundoNumero = int (input("Digite o segundo numero: "))
 soma = somar(primeiroNumero , segundoNumero)
 
 #Exibindo dados para usuário.
-print(f"Soma: {soma}")
+print(f"somar: {soma}")
