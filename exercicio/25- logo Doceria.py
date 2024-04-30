@@ -2,7 +2,7 @@ import os
 
 #função sem retorno.
 def logoDoceria ():
-    os.system
+    os.system("cls || clear")
     print("=== Doceria ===")
 
 #função sem retorno.
