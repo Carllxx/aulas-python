@@ -1,53 +1,81 @@
-app = Flask(__name__)
+import os
 
-def connect_db():
-    return sqlite3.connect('biblioteca.db')
+def cabecalho():
+    print("-=" * 18)
+    print("SEJA BEM VINDO A BIBLIOTECA ONLINE!")
 
-# 1. Cadastro de Livros
-@app.route('/livros', methods=['POST'])
-def adicionar_livro():
-    data = request.json
-    conn = connect_db()
-    cursor = conn.cursor()
-    cursor.execute('INSERT INTO livros (titulo, autor, isbn, categoria) VALUES (?, ?, ?, ?)',
-                   (data['titulo'], data['autor'], data['isbn'], data['categoria']))
-    conn.commit()
-    conn.close()
-    return jsonify({'message': 'Livro adicionado com sucesso!'}), 201
+def main():
+    os.system("cls || clear")
+    cabecalho()
+    # Primeira funcionalidade menu com os livros.
+    menu = {
+        1: ("Malala, a menina que queria ir para a escola", 25.60),
+        2: ("A paciente silenciosa", 27.54),
+        3: ("O menino do dedo verde", 39.80),  
+        4: ("Desperte o seu gigante interior", 43.90),    
+        5: ("O livro que você gostaria que seus pais tivessem lido", 31.92), 
+        6: ("Até o verão terminar", 39.90),
+        7: ("Diário estoico", 64.43),
+        8: ("O milagre da manhã", 18.91),
+        9: ("A arte de dar feedback (Um guia acima da média - HBR)", 24.89), 
+        10: ("Pacote SpiceRack Book", 1000.21)
+    }
 
-# 2. Empréstimo de Livros
-@app.route('/emprestimos', methods=['POST'])
-def emprestar_livro():
-    data = request.json
-    conn = connect_db()
-    cursor = conn.cursor()
-    cursor.execute('INSERT INTO emprestimos (livro_id, usuario_id, data_emprestimo) VALUES (?, ?, ?)',
-                   (data['livro_id'], data['usuario_id'], datetime.now().strftime('%Y-%m-%d')))
-    cursor.execute('UPDATE livros SET status = ? WHERE id = ?', ('emprestado', data['livro_id']))
-    conn.commit()
-    conn.close()
-    return jsonify({'message': 'Livro emprestado com sucesso!'}), 201
+    pedidos = []
+    subtotal = 0.0
+    while True:
+        # Segunda funcionalidade memorizando os pedidos, valores e etc...
+        print("\nMenu da Biblioteca: ")
+        for codigo, (nome, preco) in menu.items():
+            print(f"{codigo}: {nome} - R$ {preco:.2f}")
+        try:
+            codigo = int(input("\nDigite o código do livro desejado ou 0 para finalizar: "))
+        except ValueError:
+            print("Por favor, digite um número válido.")
+            continue
+        if codigo == 0:
+            break
+        
+        if codigo in menu:
+            pedidos.append((codigo, menu[codigo][0], menu[codigo][1]))
+            subtotal += menu[codigo][1]
+            print(f"Você adicionou {menu[codigo][0]} ao seu pedido.")
+        else:
+            print("Código inválido, tente novamente.")
+        # Terceira funcionalidade adicionar mais pedidos em vez de reiniciar o codigo.
+        continuar = input("Deseja fazer mais um pedido? (s/n): ").lower()
+        os.system("cls || clear")
+        if continuar != 's':
+            break
 
-# 3. Cadastro de Usuários
-@app.route('/usuarios', methods=['POST'])
-def cadastrar_usuario():
-    data = request.json
-    conn = connect_db()
-    cursor = conn.cursor()
-    cursor.execute('INSERT INTO usuarios (nome, email) VALUES (?, ?)', (data['nome'], data['email']))
-    conn.commit()
-    conn.close()
-    return jsonify({'message': 'Usuário cadastrado com sucesso!'}), 201
+    if pedidos:
+        print("\nResumo do Pedido: ")
+        for codigo, nome, preco in pedidos:
+            print(f"Código: {codigo}, Livro: {nome}, Preço: R${preco:.2f}")
 
-# 4. Consulta e Busca no Acervo
-@app.route('/livros', methods=['GET'])
-def listar_livros():
-    conn = connect_db()
-    cursor = conn.cursor()
-    cursor.execute('SELECT * FROM livros')
-    livros = cursor.fetchall()
-    conn.close()
-    return jsonify(livros), 200
-
-if __name__ == '__main__':
-    app.run(debug=True)
+        print(f"\nSubtotal: R${subtotal:.2f}")
+        # Quarta funcionalidade forma de pagamento com  à vista ou credito afetando o pagamento.
+        forma_pagamento = input("Digite a forma de pagamento ('vista' para à vista com desconto ou 'credito' para com cartão com acréscimo): ")
+        if forma_pagamento == "vista":
+            desconto_acrescimo = subtotal * 0.10
+            total = subtotal - desconto_acrescimo
+            print(f"Desconto: R${desconto_acrescimo:.2f}")
+        elif forma_pagamento == "credito":
+            desconto_acrescimo = subtotal * 0.10
+            total = subtotal + desconto_acrescimo
+            print(f"Acréscimo: R${desconto_acrescimo:.2f}")
+        else:
+            print("Forma de pagamento inválida. Calculando como pagar à vista")
+            desconto_acrescimo = subtotal * 0.10
+            total = subtotal - desconto_acrescimo
+            forma_pagamento = 'vista'
+            print(f"Desconto: R${desconto_acrescimo:.2f}")
+        os.system("cls || clear")    
+        print(f"Total a pagar: R${total:.2f}")
+        print(f"Forma de pagamento escolhida: {forma_pagamento}")
+        print(f"Obrigado pela compra, volte sempre!")
+    else:
+        print("Nenhum livro foi selecionado.")
+            
+if __name__ == "__main__":
+    main()
