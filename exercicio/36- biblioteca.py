@@ -51,7 +51,7 @@ def main():
     if pedidos:
         print("\nResumo do Pedido: ")
         for codigo, nome, preco in pedidos:
-            print(f"Código: {codigo}, Livro: {nome}, Preço: R${preco:.2f}")
+           print(f"Código: {codigo}, Livro: {nome}, Preço: R${preco:.2f}")
 
         print(f"\nSubtotal: R${subtotal:.2f}")
         # Quarta funcionalidade forma de pagamento com  à vista ou credito afetando o pagamento.
