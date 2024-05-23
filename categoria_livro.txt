@@ -1,4 +1,15 @@
-Malala, A menina que queria estudar
+malala, A menina que queria estudar
 Malala Yousafzai
 superação
-29.99
+30.0
+
+O Pequeno Príncipe
+ Antoine de Saint-Exupéry.
+terror
+39.99
+
+Romeu E Julieta
+William Shakespeare
+romance
+100.0
+
